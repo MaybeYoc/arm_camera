@@ -9,8 +9,10 @@ INC_DIRS = $(foreach dir,$(INC_DIR), -I$(dir))
 
 CFLAGS = $(INC_DIRS)
 
-CC = /usr/local/arm/arm-2009q3/bin/arm-none-linux-gnueabi-gcc
-LPTHREAD = -lpthread -ljpeg -L./lib
+#CC = /usr/local/arm/arm-2009q3/bin/arm-none-linux-gnueabi-gcc
+CC = gcc
+#LPTHREAD = -lpthread -ljpeg -L./lib
+LPTHREAD = 
 
 
 ./bin/main:$(obj)
@@ -19,10 +21,13 @@ LPTHREAD = -lpthread -ljpeg -L./lib
 
 
 $(obj):%.o:%.c
-	@echo "Compiling $< ==> $@."
+	@echo "Compiling $< ==> $@"
 	${CC} $(CFLAGS) -c $< -o ./obj/$@;
 
 
+.PHONY: test
+test:
+	@./bin/main    #test build is OK?
 
 .PHONY: clean
 clean: 
