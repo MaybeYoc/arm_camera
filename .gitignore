@@ -1,2 +1,4 @@
-./obj/*.o
-./bin/*
+obj
+bin
+obj/*
+bin/*
