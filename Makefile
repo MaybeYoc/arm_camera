@@ -16,13 +16,14 @@ LPTHREAD =
 
 
 ./bin/main:$(obj)
-	$(CC) $(objd) -o $@ $(LPTHREAD)
+	@$(CC) $(objd) -o $@ $(LPTHREAD)
+	@echo "start ld obj..."
 	@echo "Compilete done."
 
 
 $(obj):%.o:%.c
 	@echo "Compiling $< ==> $@"
-	${CC} $(CFLAGS) -c $< -o ./obj/$@;
+	@${CC} $(CFLAGS) -c $< -o ./obj/$@;
 
 
 .PHONY: test
@@ -30,10 +31,11 @@ test:
 	@./bin/main    #test build is OK?
 
 .PHONY: clean
-clean: 
+clean:
+	@echo "..........Start clean..........."
 	@rm -f ./obj/*
-	@echo rm -f $(obj).
+	@echo rm -f *.obj
 	@rm -f ./bin/*
-	@echo rm -f main.
-	@echo "It is compilete that clean obj and bin."
+	@echo rm -f main
+	@echo ".........Compilete done........."
 
