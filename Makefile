@@ -16,12 +16,17 @@ LPTHREAD =
 
 
 ./bin/main:$(obj)
+	@if [ ! -d "./bin" ]; then \
+		mkdir ./bin ; \
+	fi
 	@$(CC) $(objd) -o $@ $(LPTHREAD)
 	@echo "start ld obj..."
 	@echo "Compilete done."
 
-
 $(obj):%.o:%.c
+	@if [ ! -d "./obj" ]; then \
+		mkdir ./obj ; \
+	fi
 	@echo "Compiling $< ==> $@"
 	@${CC} $(CFLAGS) -c $< -o ./obj/$@;
 
