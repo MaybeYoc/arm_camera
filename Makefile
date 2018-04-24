@@ -21,7 +21,7 @@ obj = $(foreach dir,$(notdir_obj),$(OBJ)/$(dir))
 INC_DIR := $(shell find $(INCLUDE) -type d)
 INC_DIRS = $(foreach dir,$(INC_DIR), -I$(dir))
 
-TARGET = $(OBJ)/main
+TARGET = $(BIN)/main
 CFLAGS = $(INC_DIRS)
 #CC = /usr/local/arm/arm-2009q3/bin/arm-none-linux-gnueabi-gcc
 CC = gcc
