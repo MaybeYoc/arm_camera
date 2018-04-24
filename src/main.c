@@ -4,7 +4,7 @@
 #include <netinet/in.h>
 #include <stdlib.h>
 #include <string.h>
-#include <pthread.h>
+
 
 #include <init.h>    /**/
 
@@ -14,9 +14,10 @@ int main()
 {
 /*	camera();
  */
- 	int sem_id = semget(ftok(".", 'a'),  1, 0666|IPC_CREAT); /* 创建一个信号量*/
-
-    init_sem(sem_id, 2);
+ 	
+	pthread_mutex_init(&mutex,NULL);
+ 	sem_id = semget(ftok(".", 'a'), 1, 0666 | IPC_CREAT); /* 创建一个信号量*/
+    init_sem(sem_id, 1);
  	int err=1;
  	int read_len;
  	char buf[8];
@@ -61,29 +62,32 @@ int main()
 		pthread_t pid;
 		if (strncmp(buf,"CAMERA", 6) == CAMERA) {
 			/*CAMERA.C*/
-			sem_p(sem_id);
+			pthread_mutex_lock(&mutex);
 			err = pthread_create(&pid, NULL, (void *)callBack[CAMERA], parameter);
 			if(err != 0) {
 				perror("caeate pthread");
 				continue;
 			}
 			printf("create pthread CAMERA success!\n");
+			sem_p(sem_id);
 		} else if(strncmp(buf,"COM", 3) == 0) {
 			/*COM.C*/
-			sem_p(sem_id);
+			pthread_mutex_lock(&mutex);
 			err = pthread_create(&pid, NULL, (void *)callBack[COM], parameter);
 			if(err != 0) {
 				perror("create pthread");
 				continue;
 			}
 			printf("create pthread COM success!\n");
+			sem_p(sem_id);
 		} else {
 			/**/
 			printf("not cmd!\n");
 		}
 		/*pthread_t pid;
-		pthread_create(&pid, NULL, callBack_fun[1], parameter);
-		pthread_join(&pid, NULL);*/
+		pthread_create(pid, NULL, callBack_fun[1], parameter);
+		pthread_join(pid, NULL);*/
+		//pthread_mutex_destroy(&mutex);
 	}
 	for(;;) {
 		if(code_exit != 0)
