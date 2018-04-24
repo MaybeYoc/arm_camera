@@ -9,14 +9,16 @@
 OBJ = ./obj
 BIN = ./bin
 LIB = ./lib
+INCLUDE = ./include
+SRC = ./src
 
-DIRS := $(shell find ./include ./src ./bin ./obj -type d)
+DIRS := $(shell find $(INCLUDE) $(SRC) $(BIN) $(OBJ) -type d)
 VPATH := $(DIRS)
 
 C_NOTDIR_FILES = $(foreach dir, $(DIRS),$(notdir $(wildcard $(dir)/*.c)))
 notdir_obj = $(patsubst %.c,%.o,  $(C_NOTDIR_FILES))
 obj = $(foreach dir,$(notdir_obj),$(OBJ)/$(dir))
-INC_DIR := $(shell find ./include -type d)
+INC_DIR := $(shell find $(INCLUDE) -type d)
 INC_DIRS = $(foreach dir,$(INC_DIR), -I$(dir))
 
 TARGET = $(OBJ)/main
