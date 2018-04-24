@@ -2,7 +2,8 @@
 
 #include <camera.h>  /**/
 
-void camera()
+void camera(void *parameter)
 {
 	printf("My is camera.c!\n");
+	while(1);
 }

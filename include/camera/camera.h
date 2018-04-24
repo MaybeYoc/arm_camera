@@ -2,5 +2,5 @@
 #define __CAMERA_H_
 
 #include <camera_if.h>
-void camera();
+void camera(void *parameter);
 #endif 

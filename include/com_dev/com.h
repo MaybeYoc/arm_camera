@@ -3,4 +3,7 @@
 
 #include <adc_if.h>
 #include <buzzer_if.h>
+
+void com(void *parameter);
+
 #endif 
