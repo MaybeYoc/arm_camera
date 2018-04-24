@@ -3,4 +3,6 @@
 
 #include <camera_if.h>
 void camera(void *parameter);
+
+
 #endif 

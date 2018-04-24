@@ -4,12 +4,14 @@
 #include <sys/types.h>  
 #include <sys/ipc.h>  
 #include <sys/sem.h>  
+#include <errno.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <wait.h>
 
 #include <camera.h>
 #include <com.h>
 
-#define _PATH_NAME_ "/tmp"  
-#define _PROJ_ID_ 0x666
 
 union semun   
 {  
@@ -19,12 +21,12 @@ union semun
         struct seminfo  *__buf;   
 };  
   
-int create_sem_set(int nums);  
-int get_sem_set(int nums);  
-int init_sem_set(int sem_id, int which, int val);  
-int P(int sem_id);  
-int V(int sem_id);  
-int destroy(int sem_id); 
+  
+int init_sem(int sem_id, int init_value) ;
+int del_sem(int sem_id) ;
+int sem_p(int sem_id);
+int sem_v(int sem_id);
+
 
 
 #define IP "192.168.206.132"

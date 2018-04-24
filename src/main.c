@@ -14,8 +14,9 @@ int main()
 {
 /*	camera();
  */
- 	int sem_id = create_sem_set(1);  
-    init_sem_set(sem_id, 0, 1);  
+ 	int sem_id = semget(ftok(".", 'a'),  1, 0666|IPC_CREAT); /* 创建一个信号量*/
+
+    init_sem(sem_id, 2);
  	int err=1;
  	int read_len;
  	char buf[8];
@@ -60,22 +61,22 @@ int main()
 		pthread_t pid;
 		if (strncmp(buf,"CAMERA", 6) == CAMERA) {
 			/*CAMERA.C*/
+			sem_p(sem_id);
 			err = pthread_create(&pid, NULL, (void *)callBack[CAMERA], parameter);
 			if(err != 0) {
 				perror("caeate pthread");
 				continue;
 			}
 			printf("create pthread CAMERA success!\n");
-			P(sem_id);
 		} else if(strncmp(buf,"COM", 3) == 0) {
 			/*COM.C*/
+			sem_p(sem_id);
 			err = pthread_create(&pid, NULL, (void *)callBack[COM], parameter);
 			if(err != 0) {
 				perror("create pthread");
 				continue;
 			}
 			printf("create pthread COM success!\n");
-			P(sem_id);
 		} else {
 			/**/
 			printf("not cmd!\n");
