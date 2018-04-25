@@ -58,11 +58,11 @@ int main()
 			continue;
 		}
 		printf("Recv is %s\n", buf);
+		pthread_mutex_lock(&mutex);
 		void *parameter = (void *)&clientfd;
 		pthread_t pid;
 		if (strncmp(buf,"CAMERA", 6) == CAMERA) {
 			/*CAMERA.C*/
-			pthread_mutex_lock(&mutex);
 			err = pthread_create(&pid, NULL, (void *)callBack[CAMERA], parameter);
 			if(err != 0) {
 				perror("caeate pthread");
@@ -72,7 +72,6 @@ int main()
 			sem_p(sem_id);
 		} else if(strncmp(buf,"COM", 3) == 0) {
 			/*COM.C*/
-			pthread_mutex_lock(&mutex);
 			err = pthread_create(&pid, NULL, (void *)callBack[COM], parameter);
 			if(err != 0) {
 				perror("create pthread");
@@ -82,6 +81,7 @@ int main()
 			sem_p(sem_id);
 		} else {
 			/**/
+			pthread_mutex_unlock(&mutex);  //mutex解锁  
 			printf("not cmd!\n");
 		}
 		/*pthread_t pid;

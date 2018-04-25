@@ -14,7 +14,7 @@
 #include <com.h>
 
 
-#define IP "172.20.10.4"
+#define IP "192.168.206.132"
 #define PORT 3214
 
 #define CAMERA 0
