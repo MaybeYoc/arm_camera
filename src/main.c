@@ -73,6 +73,8 @@ int main()
 			err = pthread_create(&pid1, NULL, (void *)callBack[CAMERA], parameter);
 			if(err != 0) {
 				perror("caeate pthread");
+				close(clientfd);
+				pthread_mutex_unlock(&mutex);  //mutex解锁 
 				continue;
 			}
 			printf("create pthread CAMERA success!\n");
@@ -82,6 +84,8 @@ int main()
 			err = pthread_create(&pid2, NULL, (void *)callBack[COM], parameter);
 			if(err != 0) {
 				perror("create pthread");
+				close(clientfd);
+				pthread_mutex_unlock(&mutex);  //mutex解锁 
 				continue;
 			}
 			printf("create pthread COM success!\n");
