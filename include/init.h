@@ -23,10 +23,10 @@
 typedef void (*pthread_cbk)(void *parameter);
 extern pthread_cbk callBack[];
 
-pthread_mutex_t mutex;
+pthread_mutex_t g_mutex;
 
 
-int sem_id;
+int g_sem_id;
 int init_sem(int sem_id, int init_value);
 int del_sem(int sem_id);
 int sem_p(int sem_id);
@@ -34,9 +34,9 @@ int sem_v(int sem_id);
 union semun   
 {  
     int val;  
-        struct semid_ds *buf;  
-        unsigned short  *array;  
-        struct seminfo  *__buf;   
+    struct semid_ds *buf;  
+    unsigned short  *array; 
+    struct seminfo  *__buf;   
 };  
   
 

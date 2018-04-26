@@ -25,9 +25,9 @@ int main()
 	sigaction(SIGCHLD,&act,NULL);//屏蔽子进程终结信号，让init进程去处
  	/**********************************************/
  	
-	pthread_mutex_init(&mutex,NULL);
- 	sem_id = semget(ftok(".", 'a'), 1, 0666 | IPC_CREAT); /* 创建一个信号量*/
-    init_sem(sem_id, 1);
+	pthread_mutex_init(&g_mutex,NULL);
+ 	g_sem_id = semget(ftok(".", 'a'), 1, 0666 | IPC_CREAT); /* 创建一个信号量*/
+    init_sem(g_sem_id, 1);
  	int err=1;
  	int read_len;
  	char buf[8];
@@ -65,7 +65,7 @@ int main()
 			continue;
 		}
 		printf("Recv is %s\n", buf);
-		pthread_mutex_lock(&mutex);
+		pthread_mutex_lock(&g_mutex);
 		void *parameter = (void *)&clientfd;
 		pthread_t pid1, pid2;
 		if (strncmp(buf,"CAMERA", 6) == CAMERA) {
@@ -74,26 +74,26 @@ int main()
 			if(err != 0) {
 				perror("caeate pthread");
 				close(clientfd);
-				pthread_mutex_unlock(&mutex);  //mutex解锁 
+				pthread_mutex_unlock(&g_mutex);  //mutex解锁 
 				continue;
 			}
 			printf("create pthread CAMERA success!\n");
-			sem_p(sem_id);
+			sem_p(g_sem_id);
 		} else if(strncmp(buf,"COM", 3) == 0) {
 			/*COM.C*/
 			err = pthread_create(&pid2, NULL, (void *)callBack[COM], parameter);
 			if(err != 0) {
 				perror("create pthread");
 				close(clientfd);
-				pthread_mutex_unlock(&mutex);  //mutex解锁 
+				pthread_mutex_unlock(&g_mutex);  //mutex解锁 
 				continue;
 			}
 			printf("create pthread COM success!\n");
-			sem_p(sem_id);
+			sem_p(g_sem_id);
 		} else {
 			/**/
 			close(clientfd);
-			pthread_mutex_unlock(&mutex);  //mutex解锁  
+			pthread_mutex_unlock(&g_mutex);  //mutex解锁  
 			printf("not cmd!\n");
 		}
 		/*pthread_t pid;
@@ -102,8 +102,8 @@ int main()
 		//pthread_mutex_destroy(&mutex);
 		//del_sem(int sem_id)
 	}
-	pthread_mutex_destroy(&mutex);
-	del_sem(sem_id);
+	pthread_mutex_destroy(&g_mutex);
+	del_sem(g_sem_id);
 	for(;;) {
 		if(code_exit != 0)
 			break;

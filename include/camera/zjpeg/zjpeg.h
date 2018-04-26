@@ -1,5 +1,10 @@
 #ifndef __ZJPEG_H_
 #define __ZJPEG_H_
-#include<zjpeg_cfg.h>
-void zjpeg();
+
+#include <jconfig.h>
+#include <jerror.h>
+#include <jmorecfg.h>  
+#include <jpeglib.h>  
+
+
 #endif

@@ -5,11 +5,11 @@
 
 #include <camera_if.h>
 
-extern int sem_id;
+extern int g_sem_id;
 extern int sem_v(int sem_id);
 
 void camera(void *parameter);
-extern pthread_mutex_t mutex ; 
+extern pthread_mutex_t g_mutex ; 
 
 
 

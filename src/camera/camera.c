@@ -6,7 +6,7 @@
 void camera(void *parameter)
 {
 	int clientfd = *(int *)parameter;
-	pthread_mutex_unlock(&mutex);  //mutex解锁  
+	pthread_mutex_unlock(&g_mutex);  //mutex解锁  
 	printf("My is camera.c!\n");
 	/***********test*code****************/
 	char buf[18] = "my is camera!";
@@ -30,5 +30,5 @@ void camera(void *parameter)
 	close(clientfd);
 	pthread_detach(pthread_self());
 	/************************************/
-	sem_v(sem_id);
+	sem_v(g_sem_id);
 }
