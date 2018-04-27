@@ -70,26 +70,40 @@ int main()
 		pthread_t pid1, pid2;
 		if (strncmp(buf,"CAMERA", 6) == CAMERA) {
 			/*CAMERA.C*/
-			err = pthread_create(&pid1, NULL, (void *)callBack[CAMERA], parameter);
-			if(err != 0) {
-				perror("caeate pthread");
+			if(g_judge_camera == 1) {
+				printf("using camera!\n");
 				close(clientfd);
 				pthread_mutex_unlock(&g_mutex);  //mutex解锁 
 				continue;
+			} else { 
+				err = pthread_create(&pid1, NULL, (void *)callBack[CAMERA], parameter);
+				if(err != 0) {
+					perror("caeate pthread");
+					close(clientfd);
+					pthread_mutex_unlock(&g_mutex);  //mutex解锁 
+					continue;
+				}
+				printf("create pthread CAMERA success!\n");
+				sem_p(g_sem_id);
 			}
-			printf("create pthread CAMERA success!\n");
-			sem_p(g_sem_id);
 		} else if(strncmp(buf,"COM", 3) == 0) {
 			/*COM.C*/
-			err = pthread_create(&pid2, NULL, (void *)callBack[COM], parameter);
-			if(err != 0) {
-				perror("create pthread");
+			if(g_judge_com == 1) {
+				printf("using com!\n");
 				close(clientfd);
 				pthread_mutex_unlock(&g_mutex);  //mutex解锁 
 				continue;
+			} else {
+				err = pthread_create(&pid2, NULL, (void *)callBack[COM], parameter);
+				if(err != 0) {
+					perror("create pthread");
+					close(clientfd);
+					pthread_mutex_unlock(&g_mutex);  //mutex解锁 
+					continue;
+				}
+				printf("create pthread COM success!\n");
+				sem_p(g_sem_id);
 			}
-			printf("create pthread COM success!\n");
-			sem_p(g_sem_id);
 		} else {
 			/**/
 			close(clientfd);

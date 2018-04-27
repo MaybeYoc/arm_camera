@@ -8,6 +8,7 @@ void com(void *parameter)
 {	
 	int clientfd = *(int *)parameter;
 	pthread_mutex_unlock(&g_mutex);  //mutex解锁  
+	g_judge_com = 1;
 	printf("com.c\n");
 	/***********test*code****************/
 	char buf[18] = "my is COM";
@@ -29,6 +30,7 @@ void com(void *parameter)
 		
 	}
 	close(clientfd);
+	g_judge_com = 0;
 	pthread_detach(pthread_self());
 	/************************************/
 	sem_v(g_sem_id);

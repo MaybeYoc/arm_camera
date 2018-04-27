@@ -7,6 +7,7 @@ void camera(void *parameter)
 {
 	int clientfd = *(int *)parameter;
 	pthread_mutex_unlock(&g_mutex);  //mutex解锁  
+	g_judge_camera = 1;
 	int camerafd;
 	char dev[] = CAMERA_DEV;
 	int write_read_len;
@@ -47,6 +48,7 @@ void camera(void *parameter)
         push_queue(&camerafd);
     }
 	/************************************/
+	g_judge_camera = 0;
 	pthread_detach(pthread_self());
 	sem_v(g_sem_id);
 }

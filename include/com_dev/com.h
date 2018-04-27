@@ -5,6 +5,8 @@
 #include <buzzer_if.h>
 #include <pthread.h>
 
+
+extern int g_judge_com;
 extern int g_sem_id;
 extern int sem_v(int sem_id);
 extern pthread_mutex_t g_mutex ; 

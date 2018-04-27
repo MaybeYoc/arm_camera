@@ -2,6 +2,8 @@
 
 #include <init.h>  /**/
 
+int g_judge_camera = 0;
+int g_judge_com = 0;
 
 pthread_cbk callBack[] = {
 	camera,
