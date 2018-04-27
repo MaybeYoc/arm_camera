@@ -23,10 +23,10 @@ INC_DIRS = $(foreach dir,$(INC_DIR), -I$(dir))
 
 TARGET = $(BIN)/main
 CFLAGS = $(INC_DIRS)
-#CC = /usr/local/arm/arm-2009q3/bin/arm-none-linux-gnueabi-gcc
-CC = gcc
-#LPTHREAD = -lpthread -ljpeg -L$(LIB)
-LPTHREAD = -lpthread
+CC = /usr/local/arm/arm-2009q3/bin/arm-none-linux-gnueabi-gcc
+#CC = gcc
+LPTHREAD = -lpthread -ljpeg -L$(LIB)
+#LPTHREAD = -lpthread
 
 $(TARGET):$(notdir_obj)
 	@if [ ! -d $(BIN) ]; then \
@@ -40,8 +40,8 @@ $(notdir_obj):%.o:%.c
 	@if [ ! -d $(OBJ) ]; then \
 		mkdir $(OBJ) ; \
 	fi
-	@echo "Compiling $< ==> $@"
 	@${CC} $(CFLAGS) -c $< -o $(OBJ)/$@;
+	@echo "Compiling $< ==> $@"
 
 
 .PHONY: test

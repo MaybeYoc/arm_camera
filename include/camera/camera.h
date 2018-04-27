@@ -5,6 +5,8 @@
 
 #include <camera_if.h>
 
+#define CAMERA_DEV "dev/video4"
+
 extern int g_sem_id;
 extern int sem_v(int sem_id);
 
